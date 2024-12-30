@@ -1,0 +1,30 @@
+
+module nginx-upstream 1.0;
+
+require {
+	type user_home_t;
+	type httpd_t;
+	type unreserved_port_t;
+	type xserver_port_t;
+	type ntop_port_t;
+	type transproxy_port_t;
+	class dir read;
+	class tcp_socket name_connect;
+}
+
+#============= httpd_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t ntop_port_t:tcp_socket name_connect;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t transproxy_port_t:tcp_socket name_connect;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t unreserved_port_t:tcp_socket name_connect;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t user_home_t:dir read;
+
+#!!!! This avc can be allowed using the boolean 'httpd_can_network_connect'
+allow httpd_t xserver_port_t:tcp_socket name_connect;
